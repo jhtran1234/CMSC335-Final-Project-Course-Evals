@@ -50,16 +50,27 @@ const languageOptions = {
     }
   };
 
-function updateTranslateOptions(message, target) {
-    translateOptions["data"]["q"] = message;
-    axios.request(languageOptions).then((response) => {
-        let found = response.data.data.languages.find(elem => elem.name === target);
-        translateOptions["data"]["target"] = found.language;
-    }).catch(function (error) {
-        console.error(error);
-    });
+async function updateTranslateOptions(message, target) {
+    try {
+        translateOptions["data"]["q"] = message;
+        req = await axios.request(languageOptions)
+        let found = req.data.data.languages.find(elem => elem.name === target)
+        return found.language;
+    } catch (error) {
+        console.error(error)
+    }
+    
 }
-
+async function getTranslation() {
+    try {
+        req = await axios.request(translateOptions)
+        
+        return req.data.data.translations[0].translatedText;
+    } catch (error) {
+        console.error(error);
+    }
+    
+}
 /* app is a request handler function */
 const app = express();
 app.set("view engine", "ejs");
@@ -96,31 +107,27 @@ app.get("/agentCommunicate", (request, response) => {
     response.render("agentCommunicate", {port: portNumber});
 });
 
-app.post("/processAgentCommunicate", (request, response) => {
+app.post("/processAgentCommunicate", async function (request, response){
     const aliasQuery = request.body.alias;
     const message = request.body.message;
 
-    const translated = message; 
+    agentFound = await lookupAlias(aliasQuery)
+    if (agentFound?.alias == null) {
+        response.render("failedAgentCommunicate", {});
+    } else {
+        let result = await updateTranslateOptions(message, agentFound.language);
 
-    lookupAlias(aliasQuery).then((agentFound) => {
-        if (agentFound?.alias == null) {
-            response.render("failedAgentCommunicate", {});
-        } else {
-            updateTranslateOptions(message, agentFound.language);
-            console.log(translateOptions.data);
-            // const translated = axios.request(translateOptions).then(function (response) {
-            //     console.log(response.data)
-            //     return response.data;
-            // }).catch(function (error) {
-            //     console.error(error);
-            // });
-            response.render("processAgentCommunicate", {
-                alias: agentFound?.alias,
-                message: message,
-                translated: translated
-            });
-        }
-    })
+        translateOptions["data"]["target"] = result;
+        
+        result = await getTranslation();
+        const translated = result;
+        response.render("processAgentCommunicate", {
+            alias: agentFound?.alias,
+            message: message,
+            translated: translated
+        });
+    }
+    
 });
 
 app.get("/removeAllAgents", (request, response) => {
