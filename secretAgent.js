@@ -94,12 +94,12 @@ app.post("/processAddAgent", (request, response) => {
     const remainingLetters = request.body.language.toLowerCase().slice(1);
     const language = firstLetterCap + remainingLetters;
 
-    const eval = {
+    const agent = {
         alias: request.body.alias,
         language: language
     };
 
-    insertAgent(eval);
+    insertAgent(agent);
     response.render("processAddAgent", {
         alias: request.body.alias,
         language: language,
@@ -164,10 +164,10 @@ process.stdin.on("readable", function () {
     }
 });
 
-async function insertAgent(application) {
+async function insertAgent(agent) {
     try {
         await client.connect();
-        await insertAgentHelp(client, databaseAndCollection, application);
+        await insertAgentHelp(client, databaseAndCollection, agent);
     } catch (e) {
         console.error(e);
     } finally {
@@ -175,10 +175,10 @@ async function insertAgent(application) {
     }
 }
 
-async function insertAgentHelp(client, databaseAndCollection, application) {
+async function insertAgentHelp(client, databaseAndCollection, agent) {
     const result = await client.db(databaseAndCollection.db)
                         .collection(databaseAndCollection.collection)
-                        .insertOne(application);
+                        .insertOne(agent);
 }
 
 async function lookupAlias(alias) {
