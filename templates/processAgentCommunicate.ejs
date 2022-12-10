@@ -4,17 +4,35 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Communication Confirmation</title>
+	<style>
+		html {
+			font-size: 14px;
+			background-color:mediumblue;
+		}
+		div {
+			margin:auto;
+			background-color: lightblue; 
+			border-style: double; 
+			border-color: white; 
+			border-width: 0.6rem; 
+			padding: 1rem;
+		}
+		
+	</style>
 </head>
 
 <body>
-	<h1>Agent Communication</h1>
+	<div>
+		<h1>Agent Communication</h1>
 	
-	<span><b>Agent Alias: </b><%= alias %></span><br>
-	<span><b>Message Outbound: </b><br><%= message %></span><br>
-	<span><b>Message Translated to Agent Language: </b><br><%= translated %></span>
-	<hr>
-
-	<a href="/">Return Home</a>
+		<span><b>Agent Alias: </b><%= alias %></span><br>
+		<span><b>Message Outbound: </b><br><%= message %></span><br>
+		<span><b>Message Translated to Agent Language: </b><br><%= translated %></span>
+		<hr>
+	
+		<a href="/">Return Home</a>
+	</div>
+	
 </body>
 
 </html>

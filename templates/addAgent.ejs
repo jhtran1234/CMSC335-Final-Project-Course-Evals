@@ -4,29 +4,46 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Add Agent</title>
+	<style>
+		html {
+			font-size: 14px;
+			background-color:mediumblue;
+		}
+		div {
+			margin:auto;
+			background-color: lightblue; 
+			border-style: double; 
+			border-color: white; 
+			border-width: 0.6rem; 
+			padding: 1rem;
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Add New Agent</h1>
+	<div>
+		<h1>Add New Agent</h1>
 	
-	<form action="http://localhost:<%= port %>/processAddAgent" method="post">
-		<fieldset>
-			<b>
-			<label for="alias">Agent Alias:</label>
-			<input type="text" name="alias">
-			
-			<!-- TODO: Maybe make this a dropdown eventually? -->
-			<label for="language">Language:</label>
-			<input type="text" name="language">
-			<br>
-			<br>
-			<button type="reset">Reset</button>
-			<button type="submit" onclick="return confirm('Confirm adding this agent?')">Add Agent</button>
-		</fieldset>
-	</form>
+		<form action="http://localhost:<%= port %>/processAddAgent" method="post">
+			<fieldset>
+				<b>
+				<label for="alias">Agent Alias:</label>
+				<input type="text" name="alias">
+				
+				<!-- TODO: Maybe make this a dropdown eventually? -->
+				<label for="language">Language:</label>
+				<input type="text" name="language">
+				<br>
+				<br>
+				<button type="reset">Reset</button>
+				<button type="submit" onclick="return confirm('Confirm adding this agent?')">Add Agent</button>
+			</fieldset>
+		</form>
 
-	<hr>
-	<a href="/">Return Home</a>
+		<hr>
+		<a href="/">Return Home</a>
+	</div>
+	
 </body>
 
 </html>
