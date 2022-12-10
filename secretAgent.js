@@ -90,15 +90,19 @@ app.get("/addAgent", (request, response) => {
 });
 
 app.post("/processAddAgent", (request, response) => {
+    const firstLetterCap = request.body.language.charAt(0).toUpperCase();
+    const remainingLetters = request.body.language.toLowerCase().slice(1);
+    const language = firstLetterCap + remainingLetters;
+
     const eval = {
         alias: request.body.alias,
-        language: request.body.language
+        language: language
     };
 
     insertAgent(eval);
     response.render("processAddAgent", {
         alias: request.body.alias,
-        language: request.body.language,
+        language: language,
     });
 });
 
