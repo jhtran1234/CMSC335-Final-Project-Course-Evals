@@ -21,6 +21,7 @@ const uri = `mongodb+srv://${userName}:${password}@cluster0.a2web23.mongodb.net/
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 /* Google Translate API */
+const apiKey = process.env.API_KEY;
 let translateOptions = {
     method: 'POST',
     url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
