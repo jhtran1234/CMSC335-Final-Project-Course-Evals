@@ -4,14 +4,14 @@ const fs = require("fs");
 const bodyParser = require("body-parser"); 
 const portNumber = Number(process.argv[2]);
 const { MongoClient, ServerApiVersion } = require('mongodb');
-require("dotenv").config('.env');
+require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 
 /* Our database and collection */
 const databaseAndCollection = {db: process.env.MONGO_DB_NAME, collection: process.env.MONGO_COLLECTION};
-const uri = `mongodb+srv://${userName}:${password}@cluster0.jrv2u1q.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${user}:${pass}@cluster0.a2web23.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 /* app is a request handler function */
