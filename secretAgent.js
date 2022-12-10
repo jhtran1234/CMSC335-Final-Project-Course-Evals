@@ -48,11 +48,11 @@ const languageOptions = {
     }
   };
 
-function updateTranslateOptions(params) {
-    translateOptions["data"]["q"] = params[0];
-    translateOptions["data"]["target"] = axios.request(languageOptions).then(function (response) {
-        let map = response.data.languages.find(elem => elem["name"] === params[1]);
-        return map["language"];
+function updateTranslateOptions(message, target) {
+    translateOptions["data"]["q"] = message;
+    axios.request(languageOptions).then((response) => {
+        let found = response.data.data.languages.find(elem => elem.name === target);
+        translateOptions["data"]["target"] = found.language;
     }).catch(function (error) {
         console.error(error);
     });
@@ -98,13 +98,20 @@ app.post("/processAgentCommunicate", (request, response) => {
     const aliasQuery = request.body.alias;
     const message = request.body.message;
 
-    //TODO Translate message
-    const translated = message;
+    const translated = message; 
 
     lookupAlias(aliasQuery).then((agentFound) => {
         if (agentFound?.alias == null) {
             response.render("failedAgentCommunicate", {});
         } else {
+            updateTranslateOptions(message, agentFound.language);
+            console.log(translateOptions.data);
+            // const translated = axios.request(translateOptions).then(function (response) {
+            //     console.log(response.data)
+            //     return response.data;
+            // }).catch(function (error) {
+            //     console.error(error);
+            // });
             response.render("processAgentCommunicate", {
                 alias: agentFound?.alias,
                 message: message,
