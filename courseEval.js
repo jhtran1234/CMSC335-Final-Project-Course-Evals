@@ -8,11 +8,50 @@ require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') })
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
+const apiKey = process.env.API_KEY;
 
 /* Our database and collection */
 const databaseAndCollection = {db: process.env.MONGO_DB_NAME, collection: process.env.MONGO_COLLECTION};
-const uri = `mongodb+srv://${user}:${pass}@cluster0.a2web23.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${userName}:${password}@cluster0.a2web23.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+/* API stuff */
+let translateOptions = {
+    method: 'POST',
+    url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'Accept-Encoding': 'application/gzip',
+      'X-RapidAPI-Key': `${apiKey}`,
+      'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+    },
+    "data": {
+        "source": "en",
+        "q": "",
+        "target": ""
+    }
+};
+
+const languageOptions = {
+    method: 'GET',
+    url: 'https://google-translate1.p.rapidapi.com/language/translate/v2/languages',
+    params: {target: 'en'},
+    headers: {
+      'Accept-Encoding': 'application/gzip',
+      'X-RapidAPI-Key': `${apiKey}`,
+      'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+    }
+  };
+
+function updateTranslateOptions(params) {
+    translateOptions["data"]["q"] = params[0];
+    translateOptions["data"]["target"] = axios.request(languageOptions).then(function (response) {
+        let map = response.data.languages.find(elem => elem["name"] === params[1]);
+        return map["language"];
+    }).catch(function (error) {
+        console.error(error);
+    });
+}
 
 /* app is a request handler function */
 const app = express();
