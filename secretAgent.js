@@ -91,7 +91,7 @@ app.get("/addAgent", (request, response) => {
 
 app.post("/processAddAgent", (request, response) => {
     const firstLetterCap = request.body.language.charAt(0).toUpperCase();
-    const remainingLetters = request.body.language.toLowerCase().slice(1);
+    const remainingLetters = request.body.language.slice(1).toLowerCase();
     const language = firstLetterCap + remainingLetters;
 
     const agent = {
