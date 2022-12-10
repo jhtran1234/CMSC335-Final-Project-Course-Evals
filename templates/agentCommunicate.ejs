@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Communicate with Agent</title>
+</head>
+
+<body>
+	<h1>Send a Communication</h1>
+	
+	<form action="http://localhost:<%= port %>/processAgentCommunicate" method="post">
+		<fieldset>
+			<b>
+			<label for="alias">Agent Alias:</label>
+			<input type="text" name="alias">
+			<br>
+			<br>
+			<label for="message">Message to Send to Agent:</label>
+			<br>
+			<textarea type="text" name="message" cols="80" rows="5"></textarea></b>
+			<br>
+			<br>
+			<button type="reset">Reset</button>
+			<button type="submit">Send Communication</button>
+		</fieldset>
+	</form>
+
+	<hr>
+	<a href="/">Return Home</a>
+</body>
+
+</html>
