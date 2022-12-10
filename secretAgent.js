@@ -1,17 +1,15 @@
 const express = require('express');
 var path = require('path');
 const fs = require("fs");
-const bodyParser = require("body-parser"); 
-const axios = require("axios");
+const bodyParser = require("body-parser");
+const { MongoClient, ServerApiVersion } = require('mongodb');
+require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 
+/* Set listening port number */
 let portNumber = 5000;
 if (process.argv[2] != null){
     portNumber = Number(process.argv[2]);
 }
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const { argv } = require('process');
-require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
