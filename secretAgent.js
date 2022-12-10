@@ -120,8 +120,8 @@ async function insertAgent(application) {
 
 async function insertAgentHelp(client, databaseAndCollection, application) {
     const result = await client.db(databaseAndCollection.db)
-        .collection(databaseAndCollection.collection)
-        .insertOne(application);
+                        .collection(databaseAndCollection.collection)
+                        .insertOne(application);
 }
 
 async function lookupAlias(alias) {
