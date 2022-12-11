@@ -7,7 +7,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 
 /* Set listening port number */
-let portNumber = 5000;
+let portNumber = process.env.port || 5000;
 if (process.argv[2] != null){
     portNumber = Number(process.argv[2]);
 }
