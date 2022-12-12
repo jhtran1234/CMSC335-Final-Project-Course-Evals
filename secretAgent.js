@@ -117,13 +117,21 @@ app.post("/processAgentCommunicate", async function (request, response){
     agentFound = await lookupAlias(aliasQuery)
     if (agentFound?.alias == null) {
         response.render("failedAgentCommunicate", {});
+    } else if (agentFound.language === "English") {
+        response.render("processAgentCommunicate", {
+            alias: agentFound?.alias,
+            message: message,
+            translated: message
+        });
     } else {
+        
         let result = await updateTranslateOptions(message, agentFound.language);
 
         translateOptions["data"]["target"] = result;
         
         result = await getTranslation();
         const translated = result;
+        
         response.render("processAgentCommunicate", {
             alias: agentFound?.alias,
             message: message,
