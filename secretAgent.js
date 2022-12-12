@@ -86,7 +86,7 @@ app.get("/", (request, response) => {
 });
 
 app.get("/addAgent", (request, response) => {
-    response.render("addAgent", {port: portNumber});
+    response.render("addAgent");
 });
 
 app.post("/processAddAgent", (request, response) => {
@@ -107,7 +107,7 @@ app.post("/processAddAgent", (request, response) => {
 });
 
 app.get("/agentCommunicate", (request, response) => {
-    response.render("agentCommunicate", {port: portNumber});
+    response.render("agentCommunicate");
 });
 
 app.post("/processAgentCommunicate", async function (request, response){
@@ -134,7 +134,7 @@ app.post("/processAgentCommunicate", async function (request, response){
 });
 
 app.get("/removeAllAgents", (request, response) => {
-    response.render("removeAllAgents", {port: portNumber});
+    response.render("removeAllAgents");
 });
 
 app.post("/processRemoveAllAgents", (request, response) => {
