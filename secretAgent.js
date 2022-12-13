@@ -75,7 +75,18 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "templates"));
 
-app.listen(portNumber);
+const connectDB = async () => {
+    try {
+        await client.connect();
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+
+connectDB().then(() => {
+    app.listen(portNumber);
+});
 console.log(`Web server started and running at http://localhost:${portNumber}`);
 
 /* To handle post parameters */
@@ -163,6 +174,7 @@ process.stdin.on("readable", function () {
         let command = dataInput.trim();
         if (command === "stop" || command === "Stop") {
             process.stdout.write("Shutting down the server");
+            client.close();
             process.exit(0);
         } else {
             console.log(`Invalid command: ${command}`);
@@ -174,13 +186,10 @@ process.stdin.on("readable", function () {
 
 async function insertAgent(agent) {
     try {
-        await client.connect();
         await insertAgentHelp(client, databaseAndCollection, agent);
     } catch (e) {
         console.error(e);
-    } finally {
-        await client.close();
-    }
+    } 
 }
 
 async function insertAgentHelp(client, databaseAndCollection, agent) {
@@ -192,13 +201,10 @@ async function insertAgentHelp(client, databaseAndCollection, agent) {
 async function lookupAlias(alias) {
     let agentFound;
     try {
-        await client.connect();
         agentFound = await lookupAliasHelp(client, databaseAndCollection, alias);
     } catch (e) {
         console.error(e);
-    } finally {
-        await client.close();
-    }
+    } 
 
     return agentFound;
 }
@@ -215,16 +221,13 @@ async function lookupAliasHelp(client, databaseAndCollection, alias) {
 async function deleteAllAgents() {
     let deleteCount = 0;
     try {
-        await client.connect();
         const result = await client.db(databaseAndCollection.db)
         .collection(databaseAndCollection.collection)
         .deleteMany({});
         deleteCount += result.deletedCount;
     } catch (e) {
         console.error(e);
-    } finally {
-        await client.close();
-    }
+    } 
 
     return deleteCount;
 }
