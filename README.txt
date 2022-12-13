@@ -12,7 +12,7 @@ https://calm-pear-catfish-robe.cyclic.app/
 (Lag issues on adding to MongoDB database)
 
 API links:
-#TODO Links to API(s) you are using.
+https://rapidapi.com/googlecloud/api/google-translate1
 
 YouTube Demo Video:
 #TODO Link to a YouTube video that provides a demo of your application.
